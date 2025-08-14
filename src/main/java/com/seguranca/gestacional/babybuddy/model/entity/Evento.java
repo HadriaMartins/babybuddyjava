@@ -1,4 +1,4 @@
-package model.entity;
+package com.seguranca.gestacional.babybuddy.model.entity;
 
 public class Evento {
     private Long id;

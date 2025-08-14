@@ -1,10 +1,10 @@
-package model.entity;
+package com.seguranca.gestacional.babybuddy.model.entity;
 
 import java.time.LocalDateTime;
 
 public class Gestante {
     private Long id;
-    private String cpf;
+    private double cpf;
     private double telefone;
     private LocalDateTime data_cadastro;
 
@@ -16,11 +16,11 @@ public class Gestante {
         this.id = id;
     }
 
-    public String getCpf() {
+    public double getCpf() {
         return cpf;
     }
 
-    public void setCpf(String cpf) {
+    public void setCpf(double cpf) {
         this.cpf = cpf;
     }
 

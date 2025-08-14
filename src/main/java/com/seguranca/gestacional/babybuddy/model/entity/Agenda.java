@@ -1,4 +1,4 @@
-package model.entity;
+package com.seguranca.gestacional.babybuddy.model.entity;
 
 import java.time.LocalDateTime;
 
@@ -11,7 +11,7 @@ public class Agenda {
 
     public void setId(Long id) {
         this.id = id;
-    }
+    }                                           
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
