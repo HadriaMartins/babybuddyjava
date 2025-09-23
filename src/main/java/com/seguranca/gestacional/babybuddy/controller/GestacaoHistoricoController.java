@@ -18,19 +18,21 @@ import java.util.List;
 @RequestMapping("/api/v1/GestacaoHistorico")
 
 public class GestacaoHistoricoController {
-    List<GestacaoHistorico> GestacaoHistoricoHistorico = new ArrayList<>();
+    List<GestacaoHistorico> GestacaoHistoricos = new ArrayList<>();
+
     @GetMapping
     public List<GestacaoHistorico> findAll() {
         GestacaoHistorico u1 = new GestacaoHistorico();
         u1.setId(1L);
         u1.setData_registro(LocalDateTime.now());
         u1.setObservacoes("Muitos Enjoos.");
-
+        u1.setPeso_materno(75.5);
 
 
         // Adicionando o produto
+        GestacaoHistoricos.add(u1);
 
-        return GestacaoHistorico;
+        return GestacaoHistoricos;
     }
 }
  

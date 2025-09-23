@@ -1,5 +1,6 @@
 package com.seguranca.gestacional.babybuddy.model.entity;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 
 public class GestacaoHistorico {
@@ -7,9 +8,9 @@ public class GestacaoHistorico {
     private Long id;
     private LocalDateTime data_registro;
     private String observacoes;
-    private String peso_materno;
-    private String pressao_arterial;
-    private String semana_gestacional;
+    private Double peso_materno;
+    private DecimalFormat pressao_arterial;
+    private DecimalFormat semana_gestacional;
 
     public Long getId() {
         return id;
@@ -35,27 +36,27 @@ public class GestacaoHistorico {
         this.observacoes = observacoes;
     }
 
-    public String getPeso_materno() {
+    public Double getPeso_materno() {
         return peso_materno;
     }
 
-    public void setPeso_materno(String peso_materno) {
+    public void setPeso_materno(double peso_materno) {
         this.peso_materno = peso_materno;
     }
 
-    public String getPressao_arterial() {
+    public DecimalFormat getPressao_arterial() {
         return pressao_arterial;
     }
 
-    public void setPressao_arterial(String pressao_arterial) {
+    public void setPressao_arterial(DecimalFormat pressao_arterial) {
         this.pressao_arterial = pressao_arterial;
     }
 
-    public String getSemana_gestacional() {
+    public DecimalFormat getSemana_gestacional() {
         return semana_gestacional;
     }
 
-    public void setSemana_gestacional(String semana_gestacional) {
+    public void setSemana_gestacional(DecimalFormat semana_gestacional) {
         this.semana_gestacional = semana_gestacional;
     }
 }
