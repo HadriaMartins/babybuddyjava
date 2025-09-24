@@ -1,15 +1,32 @@
 package com.seguranca.gestacional.babybuddy.model.entity;
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
+@Entity
     public class Usuario {
+
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
         private Long id;
+
+    @Column(length = 100, nullable = false)
         private String nome;
-        private String email;
-        private String senha;
-        private String nivel_acesso;
-        private LocalDateTime data_nascimento;
-        private LocalDateTime data_cadastro;
-        private LocalDateTime ultima_conexao;
+
+    @Column(length = 100, nullable = false)
+    private String email;
+
+    @Column(length = 255, nullable = false)
+    private String senha;
+
+    @Column(length = 20, nullable = false)
+    private String nivel_acesso;
+
+    @Column(name = "data_cadastro", nullable = false)
+    private LocalDateTime data_cadastro;
+
+    @Column
+    private boolean statusUsuario;
 
         public Long getId() {
             return id;
@@ -51,14 +68,6 @@ import java.time.LocalDateTime;
             this.nivel_acesso = nivel_acesso;
         }
 
-        public LocalDateTime getData_nascimento() {
-            return data_nascimento;
-        }
-
-        public void setData_nascimento(LocalDateTime data_nascimento) {
-            this.data_nascimento = data_nascimento;
-        }
-
         public LocalDateTime getData_cadastro() {
             return data_cadastro;
         }
@@ -67,13 +76,13 @@ import java.time.LocalDateTime;
             this.data_cadastro = data_cadastro;
         }
 
-        public LocalDateTime getUltima_conexao() {
-            return ultima_conexao;
-        }
-
-        public void setUltima_conexao(LocalDateTime ultima_conexao) {
-            this.ultima_conexao = ultima_conexao;
-        }
+    public boolean isStatusUsuario() {
+        return statusUsuario;
     }
+
+    public void setStatusUsuario(boolean statusUsuario) {
+        this.statusUsuario = statusUsuario;
+    }
+}
 
 

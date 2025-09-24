@@ -9,6 +9,7 @@ public class Gestacao {
     private String tipo_gestacao;
     private String risco;
     private String observacoes;
+    private boolean status_gestacao;
 
     public Long getId() {
         return id;
@@ -56,6 +57,14 @@ public class Gestacao {
 
     public void setObservacoes(String observacoes) {
         this.observacoes = observacoes;
+    }
+
+    public boolean isStatus_gestacao() {
+        return status_gestacao;
+    }
+
+    public void setStatus_gestacao(boolean status_gestacao) {
+        this.status_gestacao = status_gestacao;
     }
 }
 

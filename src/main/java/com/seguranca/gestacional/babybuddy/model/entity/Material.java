@@ -1,13 +1,28 @@
 package com.seguranca.gestacional.babybuddy.model.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import java.time.LocalDateTime;
 
 public class Material {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(length = 150, nullable = false)
     private String titulo;
+
+    @Column(name = "data_publicacap", nullable = false)
     private LocalDateTime data_publicacao;
+
+    @Column(length = 100, nullable = false)
     private String autor;
-    private String status_material;
+
+    @Column
+    private boolean status_material;
 
     public Long getId() {
         return id;
@@ -41,11 +56,11 @@ public class Material {
         this.autor = autor;
     }
 
-    public String getStatus_material() {
+    public boolean getStatus_material() {
         return status_material;
     }
 
-    public void setStatus_material(String status_material) {
+    public void setStatus_material(boolean status_material) {
         this.status_material = status_material;
     }
 }

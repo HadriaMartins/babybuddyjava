@@ -25,7 +25,7 @@ public class AgendaController {
         u1.setTitulo("Fulano da Silva");
         u1.setData_evento(LocalDateTime.now());
         u1.setData_criado(LocalDateTime.now());
-        u1.setStatus_evento("Ocorreu");
+        u1.setStatus_evento(Boolean.parseBoolean("Ocorreu"));
         // Adicionando o produto
         Agendas.add(u1);
 

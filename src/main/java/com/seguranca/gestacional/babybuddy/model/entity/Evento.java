@@ -1,5 +1,8 @@
 package com.seguranca.gestacional.babybuddy.model.entity;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class Evento {
     private Long id;
     private String tipo_evento;
