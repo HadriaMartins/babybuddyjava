@@ -22,10 +22,11 @@ public class AgendaController {
     public List<Agenda> findAll() {
         Agenda u1 = new Agenda();
         u1.setId(1L);
-        u1.setTitulo("Fulano da Silva");
-        u1.setData_evento(LocalDateTime.now());
-        u1.setData_criado(LocalDateTime.now());
-        u1.setStatus_evento(Boolean.parseBoolean("Ocorreu"));
+        u1.setTitulo("Análises ao sangue e urina");
+        u1.setInformacao("Levar coleta de urina e exame de sangue");
+        u1.setStatus_agenda(true);
+        u1.setData_cadastro(LocalDateTime.now());
+
         // Adicionando o produto
         Agendas.add(u1);
 

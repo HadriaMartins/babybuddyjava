@@ -27,8 +27,7 @@ public class UsuarioController {
         u1.setSenha("MTIzNDU2Nzg=");
         u1.setNivel_acesso("Usuario");
         u1.setData_cadastro(LocalDateTime.now());
-        u1.setData_nascimento(LocalDateTime.now());
-        u1.setUltima_conexao(LocalDateTime.now());
+        u1.setStatusUsuario(true);
 
         // Adicionando o produto
         usuarios.add(u1);

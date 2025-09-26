@@ -1,10 +1,13 @@
 package com.seguranca.gestacional.babybuddy.model.entity;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 @Entity
 public class Evento {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length = 150, nullable = false)
     private String tipo_evento;
 
     public Long getId() {
@@ -23,3 +26,4 @@ public class Evento {
         this.tipo_evento = tipo_evento;
     }
 }
+

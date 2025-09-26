@@ -1,12 +1,22 @@
 package com.seguranca.gestacional.babybuddy.model.entity;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
+@Entity
 public class Gestante {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private double cpf;
-    private double telefone;
-    private LocalDateTime data_cadastro;
+    @Column(name = "data_registro", nullable = false)
+    private LocalDateTime data_registro;
+    @Column(name = "data_nascimento", nullable = false)
+    private LocalDateTime data_nascimento;
+    @Column(length = 200, nullable = false)
+    private String observacoes;
+    @Column(length = 20, nullable = false)
+    private String tipo_sanquineo;
 
     public Long getId() {
         return id;
@@ -16,27 +26,35 @@ public class Gestante {
         this.id = id;
     }
 
-    public double getCpf() {
-        return cpf;
+    public LocalDateTime getData_registro() {
+        return data_registro;
     }
 
-    public void setCpf(double cpf) {
-        this.cpf = cpf;
+    public void setData_registro(LocalDateTime data_registro) {
+        this.data_registro = data_registro;
     }
 
-    public double getTelefone() {
-        return telefone;
+    public LocalDateTime getData_nascimento() {
+        return data_nascimento;
     }
 
-    public void setTelefone(double telefone) {
-        this.telefone = telefone;
+    public void setData_nascimento(LocalDateTime data_nascimento) {
+        this.data_nascimento = data_nascimento;
     }
 
-    public LocalDateTime getData_cadastro() {
-        return data_cadastro;
+    public String getObservacoes() {
+        return observacoes;
     }
 
-    public void setData_cadastro(LocalDateTime data_cadastro) {
-        this.data_cadastro = data_cadastro;
+    public void setObservacoes(String observacoes) {
+        this.observacoes = observacoes;
+    }
+
+    public String getTipo_sanquineo() {
+        return tipo_sanquineo;
+    }
+
+    public void setTipo_sanquineo(String tipo_sanquineo) {
+        this.tipo_sanquineo = tipo_sanquineo;
     }
 }

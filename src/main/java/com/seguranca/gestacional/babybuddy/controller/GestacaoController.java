@@ -25,7 +25,6 @@ public class GestacaoController {
         u1.setData_inicio(LocalDateTime.now());
         u1.setData_prevista_parto(LocalDateTime.now());
         u1.setTipo_gestacao("Saudável");
-        u1.setRisco("Prematuridade");
         u1.setObservacoes("Enjoo matinal recorrente");
 
         // Adicionando o produto

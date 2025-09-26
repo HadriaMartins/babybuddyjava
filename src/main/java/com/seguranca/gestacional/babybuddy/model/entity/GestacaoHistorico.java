@@ -1,16 +1,25 @@
 package com.seguranca.gestacional.babybuddy.model.entity;
 
+import jakarta.persistence.*;
+
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 
+@Entity
 public class GestacaoHistorico {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "data_registro", nullable = false)
     private LocalDateTime data_registro;
+    @Column(length = 200, nullable = false)
     private String observacoes;
-    private Double peso_materno;
+    @Column(length = 6, nullable = false)
+    private double peso_materno;
+    @Column(length = 20, nullable = false)
     private DecimalFormat pressao_arterial;
-    private DecimalFormat semana_gestacional;
+    @Column(length = 100, nullable = false)
+    private String semana_gestacional;
 
     public Long getId() {
         return id;
@@ -36,7 +45,7 @@ public class GestacaoHistorico {
         this.observacoes = observacoes;
     }
 
-    public Double getPeso_materno() {
+    public double getPeso_materno() {
         return peso_materno;
     }
 
@@ -52,11 +61,11 @@ public class GestacaoHistorico {
         this.pressao_arterial = pressao_arterial;
     }
 
-    public DecimalFormat getSemana_gestacional() {
+    public String getSemana_gestacional() {
         return semana_gestacional;
     }
 
-    public void setSemana_gestacional(DecimalFormat semana_gestacional) {
+    public void setSemana_gestacional(String semana_gestacional) {
         this.semana_gestacional = semana_gestacional;
     }
 }

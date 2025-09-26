@@ -1,7 +1,6 @@
 package com.seguranca.gestacional.babybuddy.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -9,11 +8,16 @@ import java.util.Date;
 @Entity
 public class Agenda {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length = 100, nullable = false)
     private String titulo;
-    private LocalDateTime data_evento;
-    private LocalDateTime data_criado;
-    private boolean status_evento;
+    @Column(length = 200, nullable = false)
+    private String informacao;
+    @Column(name = "data_cadastro", nullable = false)
+    private LocalDateTime data_cadastro;
+    @Column
+    private boolean status_agenda;
 
     public Long getId() {
         return id;
@@ -31,27 +35,27 @@ public class Agenda {
         this.titulo = titulo;
     }
 
-    public LocalDateTime getData_evento() {
-        return data_evento;
+    public String getInformacao() {
+        return informacao;
     }
 
-    public void setData_evento(LocalDateTime data_evento) {
-        this.data_evento = data_evento;
+    public void setInformacao(String informacao) {
+        this.informacao = informacao;
     }
 
-    public LocalDateTime getData_criado() {
-        return data_criado;
+    public LocalDateTime getData_cadastro() {
+        return data_cadastro;
     }
 
-    public void setData_criado(LocalDateTime data_criado) {
-        this.data_criado = data_criado;
+    public void setData_cadastro(LocalDateTime data_cadastro) {
+        this.data_cadastro = data_cadastro;
     }
 
-    public boolean getStatus_evento() {
-        return status_evento;
+    public boolean isStatus_agenda() {
+        return status_agenda;
     }
 
-    public void setStatus_evento(boolean status_evento) {
-        this.status_evento = status_evento;
+    public void setStatus_agenda(boolean status_agenda) {
+        this.status_agenda = status_agenda;
     }
 }

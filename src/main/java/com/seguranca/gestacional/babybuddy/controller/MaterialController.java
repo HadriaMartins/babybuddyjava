@@ -25,7 +25,7 @@ public class MaterialController {
         u1.setTitulo("Parto NAtural");
         u1.setData_publicacao(LocalDateTime.now());
         u1.setAutor("Dr. Luana");
-        u1.setStatus_material(Boolean.parseBoolean("ATIVO"));
+        u1.setStatus_material(true);
 
         // Adicionando o produto
         Materials.add(u1);

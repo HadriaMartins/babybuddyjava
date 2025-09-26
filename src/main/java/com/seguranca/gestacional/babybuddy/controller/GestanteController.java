@@ -22,10 +22,10 @@ public class GestanteController {
     public List<Gestante> findAll() {
         Gestante u1 = new Gestante();
         u1.setId(1L);
-        u1.setCpf(49386475);
-        u1.setTelefone(1195229);
-        u1.setData_cadastro(LocalDateTime.now());
-
+        u1.setObservacoes("Muitos Enjoos.");
+        u1.setData_registro(LocalDateTime.now());
+        u1.setData_nascimento(LocalDateTime.now());
+        u1.setTipo_sanquineo("A+");
         // Adicionando o produto
         Gestantes.add(u1);
 

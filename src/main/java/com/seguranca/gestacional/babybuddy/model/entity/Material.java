@@ -1,12 +1,10 @@
 package com.seguranca.gestacional.babybuddy.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
+@Entity
 public class Material {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +13,13 @@ public class Material {
     @Column(length = 150, nullable = false)
     private String titulo;
 
-    @Column(name = "data_publicacap", nullable = false)
+    @Column(length = 200, nullable = false)
+    private String link;
+
+    @Column(nullable = false)
+    private String arquivo;
+
+    @Column(name = "data_publicacao", nullable = false)
     private LocalDateTime data_publicacao;
 
     @Column(length = 100, nullable = false)

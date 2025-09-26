@@ -1,14 +1,25 @@
 package com.seguranca.gestacional.babybuddy.model.entity;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
+@Entity
 public class Gestacao {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "data_inicio", nullable = false)
     private LocalDateTime data_inicio;
+    @Column(name = "data_prevista_parto", nullable = false)
     private LocalDateTime data_prevista_parto;
+    @Column(name = "data_parto", nullable = false)
+    private LocalDateTime data_parto;
+    @Column(length = 100, nullable = false)
     private String tipo_gestacao;
-    private String risco;
+    @Column(length = 200, nullable = false)
     private String observacoes;
+    @Column
     private boolean status_gestacao;
 
     public Long getId() {
@@ -35,20 +46,20 @@ public class Gestacao {
         this.data_prevista_parto = data_prevista_parto;
     }
 
+    public LocalDateTime getData_parto() {
+        return data_parto;
+    }
+
+    public void setData_parto(LocalDateTime data_parto) {
+        this.data_parto = data_parto;
+    }
+
     public String getTipo_gestacao() {
         return tipo_gestacao;
     }
 
     public void setTipo_gestacao(String tipo_gestacao) {
         this.tipo_gestacao = tipo_gestacao;
-    }
-
-    public String getRisco() {
-        return risco;
-    }
-
-    public void setRisco(String risco) {
-        this.risco = risco;
     }
 
     public String getObservacoes() {

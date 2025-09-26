@@ -20,8 +20,7 @@ public class AgendaService {
     }
 
     public Agenda save(Agenda agenda) {
-        agenda.setStatus_evento(true);
-
+    agenda.setStatus_agenda(true);
         return agendaRepository.save(agenda);
     }
 }

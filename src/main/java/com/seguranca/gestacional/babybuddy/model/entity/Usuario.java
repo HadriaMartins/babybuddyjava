@@ -5,26 +5,19 @@ import java.time.LocalDateTime;
 
 @Entity
     public class Usuario {
-
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-        private Long id;
-
+    private Long id;
     @Column(length = 100, nullable = false)
-        private String nome;
-
+    private String nome;
     @Column(length = 100, nullable = false)
     private String email;
-
     @Column(length = 255, nullable = false)
     private String senha;
-
     @Column(length = 20, nullable = false)
     private String nivel_acesso;
-
     @Column(name = "data_cadastro", nullable = false)
     private LocalDateTime data_cadastro;
-
     @Column
     private boolean statusUsuario;
 
