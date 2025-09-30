@@ -15,9 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/Agenda")
-
 public class AgendaController {
+
     List<Agenda> Agendas = new ArrayList<>();
+
     @GetMapping
     public List<Agenda> findAll() {
         Agenda u1 = new Agenda();
