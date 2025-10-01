@@ -20,7 +20,7 @@ public class UsuarioService {
     }
 
     public Usuario save(Usuario usuario) {
-        usuario.setStatusUsuario(true);
+        usuario.setStatus_usuario(true);
         return usuarioRepository.save(usuario);
     }
 
@@ -34,7 +34,7 @@ public class UsuarioService {
     public Usuario update(Long id, Usuario Usuario) {
         Usuario usuarioExistente = findById(id);
         usuarioExistente.setNome(Usuario.getNome());
-        usuarioExistente.setStatusUsuario(Usuario.isStatusUsuario());
+        usuarioExistente.setStatus_usuario(Usuario.isStatus_usuario());
 
         return usuarioRepository.save(usuarioExistente);
     }

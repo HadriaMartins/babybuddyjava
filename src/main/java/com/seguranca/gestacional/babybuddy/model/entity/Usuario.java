@@ -14,12 +14,12 @@ import java.time.LocalDateTime;
     private String email;
     @Column(length = 255, nullable = false)
     private String senha;
-    @Column(length = 20, nullable = false)
+    @Column(name = "nivel_acesso", nullable = false)
     private String nivel_acesso;
     @Column(name = "data_cadastro", nullable = false)
     private LocalDateTime data_cadastro;
     @Column
-    private boolean statusUsuario;
+    private boolean status_usuario;
 
         public Long getId() {
             return id;
@@ -61,20 +61,21 @@ import java.time.LocalDateTime;
             this.nivel_acesso = nivel_acesso;
         }
 
-        public LocalDateTime getData_cadastro() {
-            return data_cadastro;
-        }
 
-        public void setData_cadastro(LocalDateTime data_cadastro) {
-            this.data_cadastro = data_cadastro;
-        }
-
-    public boolean isStatusUsuario() {
-        return statusUsuario;
+    public LocalDateTime getData_cadastro() {
+        return data_cadastro;
     }
 
-    public void setStatusUsuario(boolean statusUsuario) {
-        this.statusUsuario = statusUsuario;
+    public void setData_cadastro(LocalDateTime data_cadastro) {
+        this.data_cadastro = data_cadastro;
+    }
+
+    public boolean isStatus_usuario() {
+        return status_usuario;
+    }
+
+    public void setStatus_usuario(boolean status_usuario) {
+        this.status_usuario = status_usuario;
     }
 }
 
