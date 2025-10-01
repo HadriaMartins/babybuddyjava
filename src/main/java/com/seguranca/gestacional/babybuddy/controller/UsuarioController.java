@@ -1,37 +1,118 @@
 package com.seguranca.gestacional.babybuddy.controller;
 
 import com.seguranca.gestacional.babybuddy.model.entity.Usuario;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.seguranca.gestacional.babybuddy.model.services.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-// id, nome, email, senha, nivelAcesso, foto, dataCadastro, statusUsuario;
 // Getter (get): Apenas lê o valor do atributo.
 // Setter (set): Apenas modifica o valor do atributo.
 
 @RestController
 @RequestMapping("/api/v1/Usuario")
-
 public class UsuarioController {
-    List<Usuario> usuarios = new ArrayList<>();
+
+    @Autowired
+    private UsuarioService usuarioService; // Service, não repository
+
     @GetMapping
     public List<Usuario> findAll() {
-        Usuario u1 = new Usuario();
-        u1.setId(1L);
-        u1.setNome("Fulano da Silva");
-        u1.setEmail("fulano@gmail.com");
-        u1.setSenha("MTIzNDU2Nzg=");
-        u1.setNivel_acesso("Usuario");
-        u1.setData_cadastro(LocalDateTime.now());
-        u1.setStatusUsuario(true);
+        return usuarioService.findAll(); // chama o service
+    }
 
-        // Adicionando o produto
-        usuarios.add(u1);
+    @PostMapping
+    public Usuario create(@RequestBody Usuario usuario) {
+        return usuarioService.save(usuario); // chama o service
+    }
 
-        return usuarios;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> listarUsuarioPorId(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok(usuarioService.findById(Long.parseLong(id)));
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body(
+                    Map.of(
+                            "status", 400,
+                            "error", "Bad Request",
+                            "message", "O id informado não é válido: " + id
+                    )
+            );
+
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(
+                    Map.of(
+                            "status", 404,
+                            "error", "Not Found",
+                            "message", "Usuario não encontrada com o id " + id
+                    )
+
+            );
+
+        }
+
+
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> atualizarUsuario(@PathVariable String id, @RequestBody Usuario Usuario) {
+        try {
+            Long UsuarioId = Long.parseLong(id);
+            Usuario UsuarioExistente = usuarioService.findById(UsuarioId); // já lança exceção se não achar
+
+            UsuarioExistente.setNome(Usuario.getNome());
+
+            Usuario UsuarioAtualizada = usuarioService.save(UsuarioExistente);
+
+            return ResponseEntity.ok(UsuarioAtualizada);
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body(
+                    Map.of(
+                            "status", 400,
+                            "error", "Bad Request",
+                            "message", "O id informado não é válido: " + id
+                    )
+            );
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(
+                    Map.of(
+                            "status", 404,
+                            "error", "Not Found",
+                            "message", "Usuario não encontrada com o id " + id
+                    )
+            );
+        }
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> excluirUsuario(@PathVariable String id) {
+        try {
+            Long UsuarioId = Long.parseLong(id);
+            usuarioService.delete(UsuarioId); // chama o service
+            return ResponseEntity.ok(Map.of("message", "Usuario deletada com sucesso"));
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body(
+                    Map.of(
+                            "status", 400,
+                            "error", "Bad Request",
+                            "message", "O id informado não é válido: " + id
+                    )
+            );
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(
+                    Map.of(
+                            "status", 404,
+                            "error", "Not Found",
+                            "message", "Usuario não encontrada com o id " + id
+                    )
+            );
+        }
     }
 }
