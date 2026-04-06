@@ -1,6 +1,5 @@
 package com.seguranca.gestacional.babybuddy.controller;
 
-import com.seguranca.gestacional.babybuddy.model.entity.Gestante;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,6 +1,5 @@
 package com.seguranca.gestacional.babybuddy.model.services;
 
-import com.seguranca.gestacional.babybuddy.model.entity.Gestante;
 import com.seguranca.gestacional.babybuddy.model.repository.GestanteRepository;
 import com.seguranca.gestacional.babybuddy.model.services.GestanteService;
 import org.springframework.beans.factory.annotation.Autowired;
