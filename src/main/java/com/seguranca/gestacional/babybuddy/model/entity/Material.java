@@ -1,40 +1,51 @@
 package com.seguranca.gestacional.babybuddy.model.entity;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "Material")
 public class Material {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    @Column(length = 150, nullable = false)
+    @Column(nullable = false, length = 150)
     private String titulo;
 
-    @Column(length = 200, nullable = false)
+    @Column(length = 200)
     private String link;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "VARCHAR(MAX)")
     private String arquivo;
 
     @Column(name = "data_publicacao", nullable = false)
-    private LocalDateTime data_publicacao;
+    private LocalDateTime dataPublicacao;
 
-    @Column(length = 100, nullable = false)
+    @Column(nullable = false, length = 200)
     private String autor;
 
-    @Column
-    private boolean status_material;
+    @Column(name = "status_material", nullable = false, length = 50)
+    private String statusMaterial;
 
-    public Long getId() {
+    public Material() {
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
+
+    public void setId(Long id) {
+        this.id = id == null ? null : id.intValue();
+    }
+
+    public void setData_publicacao(java.time.LocalDateTime v) { this.dataPublicacao = v; }
+    public void setStatus_material(boolean v) { this.statusMaterial = v ? "ATIVO" : "INATIVO"; }
 
     public String getTitulo() {
         return titulo;
@@ -44,12 +55,28 @@ public class Material {
         this.titulo = titulo;
     }
 
-    public LocalDateTime getData_publicacao() {
-        return data_publicacao;
+    public String getLink() {
+        return link;
     }
 
-    public void setData_publicacao(LocalDateTime data_publicacao) {
-        this.data_publicacao = data_publicacao;
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public String getArquivo() {
+        return arquivo;
+    }
+
+    public void setArquivo(String arquivo) {
+        this.arquivo = arquivo;
+    }
+
+    public LocalDateTime getDataPublicacao() {
+        return dataPublicacao;
+    }
+
+    public void setDataPublicacao(LocalDateTime dataPublicacao) {
+        this.dataPublicacao = dataPublicacao;
     }
 
     public String getAutor() {
@@ -60,11 +87,11 @@ public class Material {
         this.autor = autor;
     }
 
-    public boolean getStatus_material() {
-        return status_material;
+    public String getStatusMaterial() {
+        return statusMaterial;
     }
 
-    public void setStatus_material(boolean status_material) {
-        this.status_material = status_material;
+    public void setStatusMaterial(String statusMaterial) {
+        this.statusMaterial = statusMaterial;
     }
 }

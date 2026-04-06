@@ -1,118 +1,67 @@
 package com.seguranca.gestacional.babybuddy.controller;
 
 import com.seguranca.gestacional.babybuddy.model.entity.Usuario;
-import com.seguranca.gestacional.babybuddy.model.services.UsuarioService;
+import com.seguranca.gestacional.babybuddy.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
-
-// Getter (get): Apenas lê o valor do atributo.
-// Setter (set): Apenas modifica o valor do atributo.
 
 @RestController
-@RequestMapping("/api/v1/Usuario")
+@RequestMapping("/api/usuarios")
+@CrossOrigin("*")
 public class UsuarioController {
 
     @Autowired
-    private UsuarioService usuarioService; // Service, não repository
+    private UsuarioRepository usuarioRepository;
 
     @GetMapping
-    public List<Usuario> findAll() {
-        return usuarioService.findAll(); // chama o service
+    public List<Usuario> listarTodos() {
+        return usuarioRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> buscarPorId(@PathVariable Integer id) {
+        return usuarioRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Usuario create(@RequestBody Usuario usuario) {
-        return usuarioService.save(usuario); // chama o service
-    }
-
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> listarUsuarioPorId(@PathVariable String id) {
-        try {
-            return ResponseEntity.ok(usuarioService.findById(Long.parseLong(id)));
-        } catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().body(
-                    Map.of(
-                            "status", 400,
-                            "error", "Bad Request",
-                            "message", "O id informado não é válido: " + id
-                    )
-            );
-
-
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(404).body(
-                    Map.of(
-                            "status", 404,
-                            "error", "Not Found",
-                            "message", "Usuario não encontrada com o id " + id
-                    )
-
-            );
-
-        }
-
-
+    public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
+        usuario.setDataCadastro(LocalDateTime.now());
+        usuario.setStatusUsuario("ATIVO");
+        return ResponseEntity.ok(usuarioRepository.save(usuario));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> atualizarUsuario(@PathVariable String id, @RequestBody Usuario Usuario) {
-        try {
-            Long UsuarioId = Long.parseLong(id);
-            Usuario UsuarioExistente = usuarioService.findById(UsuarioId); // já lança exceção se não achar
-
-            UsuarioExistente.setNome(Usuario.getNome());
-
-            Usuario UsuarioAtualizada = usuarioService.save(UsuarioExistente);
-
-            return ResponseEntity.ok(UsuarioAtualizada);
-        } catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().body(
-                    Map.of(
-                            "status", 400,
-                            "error", "Bad Request",
-                            "message", "O id informado não é válido: " + id
-                    )
-            );
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(404).body(
-                    Map.of(
-                            "status", 404,
-                            "error", "Not Found",
-                            "message", "Usuario não encontrada com o id " + id
-                    )
-            );
-        }
+    public ResponseEntity<Usuario> atualizar(@PathVariable Integer id, @RequestBody Usuario dados) {
+        return usuarioRepository.findById(id).map(u -> {
+            u.setNome(dados.getNome());
+            u.setEmail(dados.getEmail());
+            u.setSenha(dados.getSenha());
+            u.setNivelAcesso(dados.getNivelAcesso());
+            return ResponseEntity.ok(usuarioRepository.save(u));
+        }).orElse(ResponseEntity.notFound().build());
     }
 
+    // Exclusão lógica
+    @PatchMapping("/{id}/inativar")
+    public ResponseEntity<Usuario> inativar(@PathVariable Integer id) {
+        return usuarioRepository.findById(id).map(u -> {
+            u.setStatusUsuario("INATIVO");
+            return ResponseEntity.ok(usuarioRepository.save(u));
+        }).orElse(ResponseEntity.notFound().build());
+    }
 
+    // Exclusão física
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> excluirUsuario(@PathVariable String id) {
-        try {
-            Long UsuarioId = Long.parseLong(id);
-            usuarioService.delete(UsuarioId); // chama o service
-            return ResponseEntity.ok(Map.of("message", "Usuario deletada com sucesso"));
-        } catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().body(
-                    Map.of(
-                            "status", 400,
-                            "error", "Bad Request",
-                            "message", "O id informado não é válido: " + id
-                    )
-            );
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(404).body(
-                    Map.of(
-                            "status", 404,
-                            "error", "Not Found",
-                            "message", "Usuario não encontrada com o id " + id
-                    )
-            );
-        }
+    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+        return usuarioRepository.findById(id).map(u -> {
+            usuarioRepository.delete(u);
+            return ResponseEntity.noContent().<Void>build();
+        }).orElse(ResponseEntity.notFound().build());
     }
 }

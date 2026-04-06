@@ -3,27 +3,32 @@ package com.seguranca.gestacional.babybuddy.model.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "Evento")
 public class Evento {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(length = 150, nullable = false)
-    private String tipo_evento;
+    private Integer id;
 
-    public Long getId() {
+    @Column(name = "tipo_evento", length = 150)
+    private String tipoEvento;
+
+    public Evento() {
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getTipo_evento() {
-        return tipo_evento;
+    public String getTipoEvento() {
+        return tipoEvento;
     }
 
-    public void setTipo_evento(String tipo_evento) {
-        this.tipo_evento = tipo_evento;
+    public void setTipoEvento(String tipoEvento) {
+        this.tipoEvento = tipoEvento;
     }
 }
-

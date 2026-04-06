@@ -1,34 +1,55 @@
 package com.seguranca.gestacional.babybuddy.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.seguranca.gestacional.babybuddy.model.entity.Gestante;
+import com.seguranca.gestacional.babybuddy.repository.GestanteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-// id, nome, email, senha, nivelAcesso, foto, dataCadastro, statusGestante;
-// Getter (get): Apenas lê o valor do atributo.
-// Setter (set): Apenas modifica o valor do atributo.
-
 @RestController
-@RequestMapping("/api/v1/Gestante")
-
+@RequestMapping("/api/gestantes")
+@CrossOrigin("*")
 public class GestanteController {
-    List<Gestante> Gestantes = new ArrayList<>();
-    @GetMapping
-    public List<Gestante> findAll() {
-        Gestante u1 = new Gestante();
-        u1.setId(1L);
-        u1.setObservacoes("Muitos Enjoos.");
-        u1.setData_registro(LocalDateTime.now());
-        u1.setData_nascimento(LocalDateTime.now());
-        u1.setTipo_sanquineo("A+");
-        // Adicionando o produto
-        Gestantes.add(u1);
 
-        return Gestantes;
+    @Autowired
+    private GestanteRepository gestanteRepository;
+
+    @GetMapping
+    public List<Gestante> listarTodos() {
+        return gestanteRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Gestante> buscarPorId(@PathVariable Integer id) {
+        return gestanteRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public ResponseEntity<Gestante> cadastrar(@RequestBody Gestante gestante) {
+        gestante.setDataRegistro(LocalDateTime.now());
+        return ResponseEntity.ok(gestanteRepository.save(gestante));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Gestante> atualizar(@PathVariable Integer id, @RequestBody Gestante dados) {
+        return gestanteRepository.findById(id).map(g -> {
+            g.setObservacoes(dados.getObservacoes());
+            g.setTipoSanguineo(dados.getTipoSanguineo());
+            g.setDataNascimento(dados.getDataNascimento());
+            return ResponseEntity.ok(gestanteRepository.save(g));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+        return gestanteRepository.findById(id).map(g -> {
+            gestanteRepository.delete(g);
+            return ResponseEntity.noContent().<Void>build();
+        }).orElse(ResponseEntity.notFound().build());
     }
 }
- 

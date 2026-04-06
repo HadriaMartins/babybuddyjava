@@ -1,36 +1,68 @@
 package com.seguranca.gestacional.babybuddy.controller;
 
 import com.seguranca.gestacional.babybuddy.model.entity.Material;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.seguranca.gestacional.babybuddy.repository.MaterialRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-// id, nome, email, senha, nivelAcesso, foto, dataCadastro, statusMaterial;
-// Getter (get): Apenas lê o valor do atributo.
-// Setter (set): Apenas modifica o valor do atributo.
-
 @RestController
-@RequestMapping("/api/v1/Material")
-
+@RequestMapping("/api/materiais")
+@CrossOrigin("*")
 public class MaterialController {
-    List<Material> Materials = new ArrayList<>();
+
+    @Autowired
+    private MaterialRepository materialRepository;
+
     @GetMapping
-    public List<Material> findAll() {
-        Material u1 = new Material();
-        u1.setId(1L);
-        u1.setTitulo("Parto NAtural");
-        u1.setData_publicacao(LocalDateTime.now());
-        u1.setAutor("Dr. Luana");
-        u1.setStatus_material(true);
+    public List<Material> listarTodos() {
+        return materialRepository.findAll();
+    }
 
-        // Adicionando o produto
-        Materials.add(u1);
+    @GetMapping("/{id}")
+    public ResponseEntity<Material> buscarPorId(@PathVariable Integer id) {
+        return materialRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-        return Materials;
+    @PostMapping
+    public ResponseEntity<Material> cadastrar(@RequestBody Material material) {
+        material.setDataPublicacao(LocalDateTime.now());
+        material.setStatusMaterial("ATIVO");
+        return ResponseEntity.ok(materialRepository.save(material));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Material> atualizar(@PathVariable Integer id, @RequestBody Material dados) {
+        return materialRepository.findById(id).map(m -> {
+            m.setTitulo(dados.getTitulo());
+            m.setLink(dados.getLink());
+            m.setArquivo(dados.getArquivo());
+            m.setAutor(dados.getAutor());
+            m.setStatusMaterial(dados.getStatusMaterial());
+            return ResponseEntity.ok(materialRepository.save(m));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    // Exclusão lógica
+    @PatchMapping("/{id}/inativar")
+    public ResponseEntity<Material> inativar(@PathVariable Integer id) {
+        return materialRepository.findById(id).map(m -> {
+            m.setStatusMaterial("INATIVO");
+            return ResponseEntity.ok(materialRepository.save(m));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    // Exclusão física
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+        return materialRepository.findById(id).map(m -> {
+            materialRepository.delete(m);
+            return ResponseEntity.noContent().<Void>build();
+        }).orElse(ResponseEntity.notFound().build());
     }
 }
- 

@@ -1,83 +1,61 @@
 package com.seguranca.gestacional.babybuddy.model.entity;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "Gestacao")
 public class Gestacao {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "gestante_id")
+    private Gestante gestante;
+
     @Column(name = "data_inicio", nullable = false)
-    private LocalDateTime data_inicio;
+    private LocalDateTime dataInicio;
+
     @Column(name = "data_prevista_parto", nullable = false)
-    private LocalDateTime data_prevista_parto;
-    @Column(name = "data_parto", nullable = false)
-    private LocalDateTime data_parto;
-    @Column(length = 100, nullable = false)
-    private String tipo_gestacao;
-    @Column(length = 200, nullable = false)
+    private LocalDateTime dataPrevistaParto;
+
+    @Column(name = "data_parto")
+    private LocalDateTime dataParto;
+
+    @Column(name = "tipo_gestacao", nullable = false, length = 100)
+    private String tipoGestacao;
+
+    @Column(nullable = false, length = 200)
     private String observacoes;
-    @Column
-    private boolean status_gestacao;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "status_gestacao", nullable = false, length = 30)
+    private String statusGestacao;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Gestacao() {}
 
-    public LocalDateTime getData_inicio() {
-        return data_inicio;
-    }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
-    public void setData_inicio(LocalDateTime data_inicio) {
-        this.data_inicio = data_inicio;
-    }
+    public Gestante getGestante() { return gestante; }
+    public void setGestante(Gestante gestante) { this.gestante = gestante; }
 
-    public LocalDateTime getData_prevista_parto() {
-        return data_prevista_parto;
-    }
+    public LocalDateTime getDataInicio() { return dataInicio; }
+    public void setDataInicio(LocalDateTime dataInicio) { this.dataInicio = dataInicio; }
 
-    public void setData_prevista_parto(LocalDateTime data_prevista_parto) {
-        this.data_prevista_parto = data_prevista_parto;
-    }
+    public LocalDateTime getDataPrevistaParto() { return dataPrevistaParto; }
+    public void setDataPrevistaParto(LocalDateTime dataPrevistaParto) { this.dataPrevistaParto = dataPrevistaParto; }
 
-    public LocalDateTime getData_parto() {
-        return data_parto;
-    }
+    public LocalDateTime getDataParto() { return dataParto; }
+    public void setDataParto(LocalDateTime dataParto) { this.dataParto = dataParto; }
 
-    public void setData_parto(LocalDateTime data_parto) {
-        this.data_parto = data_parto;
-    }
+    public String getTipoGestacao() { return tipoGestacao; }
+    public void setTipoGestacao(String tipoGestacao) { this.tipoGestacao = tipoGestacao; }
 
-    public String getTipo_gestacao() {
-        return tipo_gestacao;
-    }
+    public String getObservacoes() { return observacoes; }
+    public void setObservacoes(String observacoes) { this.observacoes = observacoes; }
 
-    public void setTipo_gestacao(String tipo_gestacao) {
-        this.tipo_gestacao = tipo_gestacao;
-    }
-
-    public String getObservacoes() {
-        return observacoes;
-    }
-
-    public void setObservacoes(String observacoes) {
-        this.observacoes = observacoes;
-    }
-
-    public boolean isStatus_gestacao() {
-        return status_gestacao;
-    }
-
-    public void setStatus_gestacao(boolean status_gestacao) {
-        this.status_gestacao = status_gestacao;
-    }
+    public String getStatusGestacao() { return statusGestacao; }
+    public void setStatusGestacao(String statusGestacao) { this.statusGestacao = statusGestacao; }
 }
-
-
-

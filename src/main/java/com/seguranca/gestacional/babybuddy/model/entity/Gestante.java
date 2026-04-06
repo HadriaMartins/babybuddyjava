@@ -1,60 +1,50 @@
 package com.seguranca.gestacional.babybuddy.model.entity;
 
 import jakarta.persistence.*;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "Gestante")
 public class Gestante {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     @Column(name = "data_registro", nullable = false)
-    private LocalDateTime data_registro;
+    private LocalDateTime dataRegistro;
+
     @Column(name = "data_nascimento", nullable = false)
-    private LocalDateTime data_nascimento;
-    @Column(length = 200, nullable = false)
+    private LocalDate dataNascimento;
+
+    @Column(nullable = false, length = 200)
     private String observacoes;
-    @Column(length = 20, nullable = false)
-    private String tipo_sanquineo;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "tipo_sanguineo", nullable = false, length = 20)
+    private String tipoSanguineo;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Gestante() {}
 
-    public LocalDateTime getData_registro() {
-        return data_registro;
-    }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
-    public void setData_registro(LocalDateTime data_registro) {
-        this.data_registro = data_registro;
-    }
+    public Usuario getUsuario() { return usuario; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
 
-    public LocalDateTime getData_nascimento() {
-        return data_nascimento;
-    }
+    public LocalDateTime getDataRegistro() { return dataRegistro; }
+    public void setDataRegistro(LocalDateTime dataRegistro) { this.dataRegistro = dataRegistro; }
 
-    public void setData_nascimento(LocalDateTime data_nascimento) {
-        this.data_nascimento = data_nascimento;
-    }
+    public LocalDate getDataNascimento() { return dataNascimento; }
+    public void setDataNascimento(LocalDate dataNascimento) { this.dataNascimento = dataNascimento; }
 
-    public String getObservacoes() {
-        return observacoes;
-    }
+    public String getObservacoes() { return observacoes; }
+    public void setObservacoes(String observacoes) { this.observacoes = observacoes; }
 
-    public void setObservacoes(String observacoes) {
-        this.observacoes = observacoes;
-    }
-
-    public String getTipo_sanquineo() {
-        return tipo_sanquineo;
-    }
-
-    public void setTipo_sanquineo(String tipo_sanquineo) {
-        this.tipo_sanquineo = tipo_sanquineo;
-    }
+    public String getTipoSanguineo() { return tipoSanguineo; }
+    public void setTipoSanguineo(String tipoSanguineo) { this.tipoSanguineo = tipoSanguineo; }
 }
