@@ -10,7 +10,7 @@ public class Suporte {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "suporte_id")
-    private Integer suporteId;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
@@ -34,70 +34,29 @@ public class Suporte {
     @Column(name = "data_resposta", nullable = false)
     private LocalDateTime dataResposta;
 
-    public Suporte() {
-    }
+    public Suporte() {}
 
-    public Integer getSuporteId() {
-        return suporteId;
-    }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
-    public void setSuporteId(Integer suporteId) {
-        this.suporteId = suporteId;
-    }
+    public Usuario getUsuario() { return usuario; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
+    public String getAssunto() { return assunto; }
+    public void setAssunto(String assunto) { this.assunto = assunto; }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
+    public String getMensagem() { return mensagem; }
+    public void setMensagem(String mensagem) { this.mensagem = mensagem; }
 
-    public String getAssunto() {
-        return assunto;
-    }
+    public String getResposta() { return resposta; }
+    public void setResposta(String resposta) { this.resposta = resposta; }
 
-    public void setAssunto(String assunto) {
-        this.assunto = assunto;
-    }
+    public String getSituacaoAtual() { return situacaoAtual; }
+    public void setSituacaoAtual(String situacaoAtual) { this.situacaoAtual = situacaoAtual; }
 
-    public String getMensagem() {
-        return mensagem;
-    }
+    public LocalDateTime getDataEnvio() { return dataEnvio; }
+    public void setDataEnvio(LocalDateTime dataEnvio) { this.dataEnvio = dataEnvio; }
 
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
-    }
-
-    public String getResposta() {
-        return resposta;
-    }
-
-    public void setResposta(String resposta) {
-        this.resposta = resposta;
-    }
-
-    public String getSituacaoAtual() {
-        return situacaoAtual;
-    }
-
-    public void setSituacaoAtual(String situacaoAtual) {
-        this.situacaoAtual = situacaoAtual;
-    }
-
-    public LocalDateTime getDataEnvio() {
-        return dataEnvio;
-    }
-
-    public void setDataEnvio(LocalDateTime dataEnvio) {
-        this.dataEnvio = dataEnvio;
-    }
-
-    public LocalDateTime getDataResposta() {
-        return dataResposta;
-    }
-
-    public void setDataResposta(LocalDateTime dataResposta) {
-        this.dataResposta = dataResposta;
-    }
+    public LocalDateTime getDataResposta() { return dataResposta; }
+    public void setDataResposta(LocalDateTime dataResposta) { this.dataResposta = dataResposta; }
 }

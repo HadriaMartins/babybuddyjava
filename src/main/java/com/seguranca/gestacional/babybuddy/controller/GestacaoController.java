@@ -1,36 +1,67 @@
 package com.seguranca.gestacional.babybuddy.controller;
 
 import com.seguranca.gestacional.babybuddy.model.entity.Gestacao;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.seguranca.gestacional.babybuddy.repository.GestacaoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-// id, nome, email, senha, nivelAcesso, foto, dataCadastro, statusGestacao;
-// Getter (get): Apenas lê o valor do atributo.
-// Setter (set): Apenas modifica o valor do atributo.
-
 @RestController
-@RequestMapping("/api/v1/Gestacao")
-
+@RequestMapping("/api/gestacoes")
+@CrossOrigin("*")
 public class GestacaoController {
-    List<Gestacao> Gestacaos = new ArrayList<>();
+
+    @Autowired
+    private GestacaoRepository gestacaoRepository;
+
     @GetMapping
-    public List<Gestacao> findAll() {
-        Gestacao u1 = new Gestacao();
-        u1.setId(1L);
-        u1.setData_inicio(LocalDateTime.now());
-        u1.setData_prevista_parto(LocalDateTime.now());
-        u1.setTipo_gestacao("Saudável");
-        u1.setObservacoes("Enjoo matinal recorrente");
+    public List<Gestacao> listarTodos() {
+        return gestacaoRepository.findAll();
+    }
 
-        // Adicionando o produto
-        Gestacaos.add(u1);
+    @GetMapping("/{id}")
+    public ResponseEntity<Gestacao> buscarPorId(@PathVariable Integer id) {
+        return gestacaoRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-        return Gestacaos;
+    @PostMapping
+    public ResponseEntity<Gestacao> cadastrar(@RequestBody Gestacao gestacao) {
+        gestacao.setStatusGestacao("Ocorrendo");
+        return ResponseEntity.ok(gestacaoRepository.save(gestacao));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Gestacao> atualizar(@PathVariable Integer id, @RequestBody Gestacao dados) {
+        return gestacaoRepository.findById(id).map(g -> {
+            g.setDataInicio(dados.getDataInicio());
+            g.setDataPrevistaParto(dados.getDataPrevistaParto());
+            g.setDataParto(dados.getDataParto());
+            g.setTipoGestacao(dados.getTipoGestacao());
+            g.setObservacoes(dados.getObservacoes());
+            g.setStatusGestacao(dados.getStatusGestacao());
+            return ResponseEntity.ok(gestacaoRepository.save(g));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    // Exclusão lógica
+    @PatchMapping("/{id}/encerrar")
+    public ResponseEntity<Gestacao> encerrar(@PathVariable Integer id) {
+        return gestacaoRepository.findById(id).map(g -> {
+            g.setStatusGestacao("Encerrada");
+            return ResponseEntity.ok(gestacaoRepository.save(g));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    // Exclusão física
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+        return gestacaoRepository.findById(id).map(g -> {
+            gestacaoRepository.delete(g);
+            return ResponseEntity.noContent().<Void>build();
+        }).orElse(ResponseEntity.notFound().build());
     }
 }
- 

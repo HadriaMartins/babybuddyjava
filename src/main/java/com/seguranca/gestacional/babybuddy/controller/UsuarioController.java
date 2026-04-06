@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/api/usuarios")
 @CrossOrigin("*")
 public class UsuarioController {
 
@@ -24,37 +24,43 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> buscarPorId(@PathVariable Integer id) {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
-        return usuario.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return usuarioRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Usuario cadastrar(@RequestBody Usuario usuario) {
-        return usuarioRepository.save(usuario);
+    public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
+        usuario.setDataCadastro(LocalDateTime.now());
+        usuario.setStatusUsuario("ATIVO");
+        return ResponseEntity.ok(usuarioRepository.save(usuario));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> atualizar(@PathVariable Integer id, @RequestBody Usuario usuarioAtualizado) {
-        return usuarioRepository.findById(id).map(usuario -> {
-            usuario.setNome(usuarioAtualizado.getNome());
-            usuario.setEmail(usuarioAtualizado.getEmail());
-            usuario.setSenha(usuarioAtualizado.getSenha());
-            usuario.setTipoSanguineo(usuarioAtualizado.getTipoSanguineo());
-            usuario.setJaHouveParto(usuarioAtualizado.getJaHouveParto());
-            usuario.setPossuiAlgumProblemaDeSaude(usuarioAtualizado.getPossuiAlgumProblemaDeSaude());
-            usuario.setDataNascimento(usuarioAtualizado.getDataNascimento());
-            usuario.setNivelAcesso(usuarioAtualizado.getNivelAcesso());
-            usuario.setDataCadastro(usuarioAtualizado.getDataCadastro());
-            usuario.setStatusUsuario(usuarioAtualizado.getStatusUsuario());
-
-            return ResponseEntity.ok(usuarioRepository.save(usuario));
+    public ResponseEntity<Usuario> atualizar(@PathVariable Integer id, @RequestBody Usuario dados) {
+        return usuarioRepository.findById(id).map(u -> {
+            u.setNome(dados.getNome());
+            u.setEmail(dados.getEmail());
+            u.setSenha(dados.getSenha());
+            u.setNivelAcesso(dados.getNivelAcesso());
+            return ResponseEntity.ok(usuarioRepository.save(u));
         }).orElse(ResponseEntity.notFound().build());
     }
 
+    // Exclusão lógica
+    @PatchMapping("/{id}/inativar")
+    public ResponseEntity<Usuario> inativar(@PathVariable Integer id) {
+        return usuarioRepository.findById(id).map(u -> {
+            u.setStatusUsuario("INATIVO");
+            return ResponseEntity.ok(usuarioRepository.save(u));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    // Exclusão física
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
-        return usuarioRepository.findById(id).map(usuario -> {
-            usuarioRepository.delete(usuario);
+        return usuarioRepository.findById(id).map(u -> {
+            usuarioRepository.delete(u);
             return ResponseEntity.noContent().<Void>build();
         }).orElse(ResponseEntity.notFound().build());
     }

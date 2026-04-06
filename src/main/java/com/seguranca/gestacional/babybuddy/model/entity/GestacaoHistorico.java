@@ -30,69 +30,26 @@ public class GestacaoHistorico {
     @Column(name = "semana_gestacional", nullable = false)
     private Integer semanaGestacional;
 
-    public GestacaoHistorico() {
-    }
+    public GestacaoHistorico() {}
 
-    public Integer getId() {
-        return id;
-    }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public Gestacao getGestacao() { return gestacao; }
+    public void setGestacao(Gestacao gestacao) { this.gestacao = gestacao; }
 
-    public void setId(Long id) {
-        this.id = id == null ? null : id.intValue();
-    }
+    public LocalDateTime getDataRegistro() { return dataRegistro; }
+    public void setDataRegistro(LocalDateTime dataRegistro) { this.dataRegistro = dataRegistro; }
 
-    public void setData_registro(java.time.LocalDateTime v) { this.dataRegistro = v; }
-    public void setPeso_materno(double v) { this.pesoMaterno = v; }
+    public String getObservacoes() { return observacoes; }
+    public void setObservacoes(String observacoes) { this.observacoes = observacoes; }
 
-    public Gestacao getGestacao() {
-        return gestacao;
-    }
+    public Double getPesoMaterno() { return pesoMaterno; }
+    public void setPesoMaterno(Double pesoMaterno) { this.pesoMaterno = pesoMaterno; }
 
-    public void setGestacao(Gestacao gestacao) {
-        this.gestacao = gestacao;
-    }
+    public String getPressaoArterial() { return pressaoArterial; }
+    public void setPressaoArterial(String pressaoArterial) { this.pressaoArterial = pressaoArterial; }
 
-    public LocalDateTime getDataRegistro() {
-        return dataRegistro;
-    }
-
-    public void setDataRegistro(LocalDateTime dataRegistro) {
-        this.dataRegistro = dataRegistro;
-    }
-
-    public String getObservacoes() {
-        return observacoes;
-    }
-
-    public void setObservacoes(String observacoes) {
-        this.observacoes = observacoes;
-    }
-
-    public Double getPesoMaterno() {
-        return pesoMaterno;
-    }
-
-    public void setPesoMaterno(Double pesoMaterno) {
-        this.pesoMaterno = pesoMaterno;
-    }
-
-    public String getPressaoArterial() {
-        return pressaoArterial;
-    }
-
-    public void setPressaoArterial(String pressaoArterial) {
-        this.pressaoArterial = pressaoArterial;
-    }
-
-    public Integer getSemanaGestacional() {
-        return semanaGestacional;
-    }
-
-    public void setSemanaGestacional(Integer semanaGestacional) {
-        this.semanaGestacional = semanaGestacional;
-    }
+    public Integer getSemanaGestacional() { return semanaGestacional; }
+    public void setSemanaGestacional(Integer semanaGestacional) { this.semanaGestacional = semanaGestacional; }
 }

@@ -7,10 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/eventos")
+@RequestMapping("/api/eventos")
 @CrossOrigin("*")
 public class EventoController {
 
@@ -24,27 +23,28 @@ public class EventoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Evento> buscarPorId(@PathVariable Integer id) {
-        Optional<Evento> evento = eventoRepository.findById(id);
-        return evento.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return eventoRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Evento cadastrar(@RequestBody Evento evento) {
-        return eventoRepository.save(evento);
+    public ResponseEntity<Evento> cadastrar(@RequestBody Evento evento) {
+        return ResponseEntity.ok(eventoRepository.save(evento));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Evento> atualizar(@PathVariable Integer id, @RequestBody Evento eventoAtualizado) {
-        return eventoRepository.findById(id).map(evento -> {
-            evento.setTipoEvento(eventoAtualizado.getTipoEvento());
-            return ResponseEntity.ok(eventoRepository.save(evento));
+    public ResponseEntity<Evento> atualizar(@PathVariable Integer id, @RequestBody Evento dados) {
+        return eventoRepository.findById(id).map(e -> {
+            e.setTipoEvento(dados.getTipoEvento());
+            return ResponseEntity.ok(eventoRepository.save(e));
         }).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
-        return eventoRepository.findById(id).map(evento -> {
-            eventoRepository.delete(evento);
+        return eventoRepository.findById(id).map(e -> {
+            eventoRepository.delete(e);
             return ResponseEntity.noContent().<Void>build();
         }).orElse(ResponseEntity.notFound().build());
     }

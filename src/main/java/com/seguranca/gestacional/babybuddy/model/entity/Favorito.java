@@ -9,7 +9,7 @@ public class Favorito {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
@@ -22,42 +22,17 @@ public class Favorito {
     @Column(name = "data_favoritada", nullable = false)
     private LocalDateTime dataFavoritada;
 
-    public Favorito() {
-    }
+    public Favorito() {}
 
-    public Long getId() {
-        return id;
-    }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Usuario getUsuario() { return usuario; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
+    public Material getMaterial() { return material; }
+    public void setMaterial(Material material) { this.material = material; }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public Material getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(Material material) {
-        this.material = material;
-    }
-
-    public LocalDateTime getDataFavoritada() {
-        return dataFavoritada;
-    }
-
-    public void setDataFavoritada(LocalDateTime dataFavoritada) {
-        this.dataFavoritada = dataFavoritada;
-    }
-
-    public void setData_favoritado(LocalDateTime dataFavoritada) {
-        this.dataFavoritada = dataFavoritada;
-    }
+    public LocalDateTime getDataFavoritada() { return dataFavoritada; }
+    public void setDataFavoritada(LocalDateTime dataFavoritada) { this.dataFavoritada = dataFavoritada; }
 }

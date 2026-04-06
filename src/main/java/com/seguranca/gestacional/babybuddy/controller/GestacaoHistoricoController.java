@@ -1,38 +1,56 @@
 package com.seguranca.gestacional.babybuddy.controller;
 
-
 import com.seguranca.gestacional.babybuddy.model.entity.GestacaoHistorico;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.seguranca.gestacional.babybuddy.repository.GestacaoHistoricoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-// id, nome, email, senha, nivelAcesso, foto, dataCadastro, statusGestacaoHistorico;
-// Getter (get): Apenas lê o valor do atributo.
-// Setter (set): Apenas modifica o valor do atributo.
-
 @RestController
-@RequestMapping("/api/v1/GestacaoHistorico")
-
+@RequestMapping("/api/gestacao-historico")
+@CrossOrigin("*")
 public class GestacaoHistoricoController {
-    List<GestacaoHistorico> GestacaoHistoricos = new ArrayList<>();
+
+    @Autowired
+    private GestacaoHistoricoRepository gestacaoHistoricoRepository;
 
     @GetMapping
-    public List<GestacaoHistorico> findAll() {
-        GestacaoHistorico u1 = new GestacaoHistorico();
-        u1.setId(1L);
-        u1.setData_registro(LocalDateTime.now());
-        u1.setObservacoes("Muitos Enjoos.");
-        u1.setPeso_materno(75.5);
+    public List<GestacaoHistorico> listarTodos() {
+        return gestacaoHistoricoRepository.findAll();
+    }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<GestacaoHistorico> buscarPorId(@PathVariable Integer id) {
+        return gestacaoHistoricoRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-        // Adicionando o produto
-        GestacaoHistoricos.add(u1);
+    @PostMapping
+    public ResponseEntity<GestacaoHistorico> cadastrar(@RequestBody GestacaoHistorico historico) {
+        historico.setDataRegistro(LocalDateTime.now());
+        return ResponseEntity.ok(gestacaoHistoricoRepository.save(historico));
+    }
 
-        return GestacaoHistoricos;
+    @PutMapping("/{id}")
+    public ResponseEntity<GestacaoHistorico> atualizar(@PathVariable Integer id, @RequestBody GestacaoHistorico dados) {
+        return gestacaoHistoricoRepository.findById(id).map(h -> {
+            h.setObservacoes(dados.getObservacoes());
+            h.setPesoMaterno(dados.getPesoMaterno());
+            h.setPressaoArterial(dados.getPressaoArterial());
+            h.setSemanaGestacional(dados.getSemanaGestacional());
+            return ResponseEntity.ok(gestacaoHistoricoRepository.save(h));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+        return gestacaoHistoricoRepository.findById(id).map(h -> {
+            gestacaoHistoricoRepository.delete(h);
+            return ResponseEntity.noContent().<Void>build();
+        }).orElse(ResponseEntity.notFound().build());
     }
 }
- 

@@ -24,18 +24,10 @@ public class UsuarioService {
 
     public Usuario findById(Integer id) {
         return usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario não encontrado com o id " + id));
-    }
-
-    public Usuario update(Integer id, Usuario usuarioAtualizado) {
-        Usuario usuarioExistente = findById(id);
-        usuarioExistente.setNome(usuarioAtualizado.getNome());
-        usuarioExistente.setStatusUsuario(usuarioAtualizado.getStatusUsuario());
-        return usuarioRepository.save(usuarioExistente);
+                .orElseThrow(() -> new RuntimeException("Usuario não encontrado: " + id));
     }
 
     public void delete(Integer id) {
-        Usuario usuarioExistente = findById(id);
-        usuarioRepository.delete(usuarioExistente);
+        usuarioRepository.delete(findById(id));
     }
 }

@@ -1,33 +1,45 @@
 package com.seguranca.gestacional.babybuddy.controller;
 
 import com.seguranca.gestacional.babybuddy.model.entity.Favorito;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.seguranca.gestacional.babybuddy.repository.FavoritoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-// id, nome, email, senha, nivelAcesso, foto, dataCadastro, statusFavorito;
-// Getter (get): Apenas lê o valor do atributo.
-// Setter (set): Apenas modifica o valor do atributo.
-
 @RestController
-@RequestMapping("/api/v1/Favorito")
-
+@RequestMapping("/api/favoritos")
+@CrossOrigin("*")
 public class FavoritoController {
-    List<Favorito> Favoritos = new ArrayList<>();
-    @GetMapping                                                             
-    public List<Favorito> findAll() {
-        Favorito u1 = new Favorito();
-        u1.setId(1L);
-        u1.setData_favoritado(LocalDateTime.now());
 
-        // Adicionando o produto
-        Favoritos.add(u1);
+    @Autowired
+    private FavoritoRepository favoritoRepository;
 
-        return Favoritos;
+    @GetMapping
+    public List<Favorito> listarTodos() {
+        return favoritoRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Favorito> buscarPorId(@PathVariable Integer id) {
+        return favoritoRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public ResponseEntity<Favorito> cadastrar(@RequestBody Favorito favorito) {
+        favorito.setDataFavoritada(LocalDateTime.now());
+        return ResponseEntity.ok(favoritoRepository.save(favorito));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+        return favoritoRepository.findById(id).map(f -> {
+            favoritoRepository.delete(f);
+            return ResponseEntity.noContent().<Void>build();
+        }).orElse(ResponseEntity.notFound().build());
     }
 }
- 
