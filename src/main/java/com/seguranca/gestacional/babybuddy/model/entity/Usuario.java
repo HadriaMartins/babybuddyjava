@@ -51,4 +51,11 @@ public class Usuario {
 
     public String getStatusUsuario() { return statusUsuario; }
     public void setStatusUsuario(String statusUsuario) { this.statusUsuario = statusUsuario; }
+
+    public void setStatus_usuario(boolean b) {
+    }
+
+    public boolean isStatus_usuario() {
+        return false;
+    }
 }

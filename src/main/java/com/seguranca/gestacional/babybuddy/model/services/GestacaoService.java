@@ -19,7 +19,7 @@ public class GestacaoService {
     }
 
     public Gestacao save(Gestacao gestacao) {
-        gestacao.setStatus_gestacao(true);
+        gestacao.setStatusGestacao("ATIVO");
 
         return gestacaoRepository.save(gestacao);
     }
